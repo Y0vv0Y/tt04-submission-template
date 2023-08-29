@@ -14,7 +14,7 @@
 
 module tt_um_chip_rom(clk, rst, x, y, p);
     parameter size = 32;
-    input clk, rst;
+    input clk, rst, ena;
     input y;
     input[size-1:0] x;
     output p;
