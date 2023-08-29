@@ -10,12 +10,11 @@ It's only needed for Wokwi designs
 module tt_um_buffer_cell (
     input clk,
     input ena,
-    input rst_n,
-    input ui_in,
-    input uio_in,
-    input uio_oe,
-    input uio_out,
-    input uo_out,
+    input rst_n, input [7:0] ui_in,
+    input [7:0] uio_in,
+    output [7:0] uio_oe,
+    output [7:0] uio_out,
+    output [7:0] uo_out,
     input wire in,
     output wire out
     );
