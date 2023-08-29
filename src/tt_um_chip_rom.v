@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-module tt_um_chip_rom(clk, rst, x, y, p);
+module tt_um_chip_rom(clk, rst, ena, x, y, p);
     parameter size = 32;
     input clk, rst, ena;
     input y;
