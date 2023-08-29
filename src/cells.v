@@ -8,6 +8,7 @@ It's only needed for Wokwi designs
 `define default_netname none
 
 module tt_um_buffer_cell (
+    input clk,
     input wire in,
     output wire out
     );
