@@ -7,7 +7,7 @@ It's only needed for Wokwi designs
 
 `define default_netname none
 
-module buffer_cell (
+module tt_um_buffer_cell (
     input wire in,
     output wire out
     );
