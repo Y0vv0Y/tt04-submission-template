@@ -9,6 +9,7 @@ It's only needed for Wokwi designs
 
 module tt_um_buffer_cell (
     input clk,
+    input ena,
     input wire in,
     output wire out
     );
