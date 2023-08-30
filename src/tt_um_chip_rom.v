@@ -13,8 +13,8 @@
 // limitations under the License.
 
 `timescale 1ns/10ps
-module tt_um_mul_addtree(mul_a,mul_b, ui_in, uio_in, uio_oe, uio_out, uo_out, clk);
-    input clk;
+module tt_um_mul_addtree(mul_a,mul_b, ui_in, uio_in, uio_oe, uio_out, uo_out, clk, ena);
+    input clk,ena;
     input [7:0] ui_in, uio_in;
     output [7:0] uio_oe, uio_out;
     input [3:0] mul_a,mul_b;          //IO端口声明
