@@ -13,21 +13,21 @@
 // limitations under the License.
 
 
-module tt_um_chip_rom(clk, rst_n, ena, x, y, p,ui_in, uio_in, uio_oe, uio_out, uo_out);
+module tt_um_chip_rom(clk, rst_n, ena, x, y, ui_in, uio_in, uio_oe, uio_out, uo_out);
     parameter size = 32;
     input clk, rst_n, ena;
     input y;
     input[size-1:0] x;
-    output p;
+    output uo_out;
     input [7:0] ui_in, uio_in;
-    output [7:0] uio_oe, uio_out, uo_out;
+    output [7:0] uio_oe, uio_out;
 
     wire[size-1:1] pp;
     wire[size-1:0] xy;
 
     genvar i;
 
-    CSADD csa0 (.clk(clk), .rst_n(rst_n), .x(x[0]&y), .y(pp[1]), .sum(p));
+    CSADD csa0 (.clk(clk), .rst_n(rst_n), .x(x[0]&y), .y(pp[1]), .sum(uo_out));
     generate for(i=1; i<size-1; i=i+1) begin
         CSADD csa (.clk(clk), .rst_n(rst_n), .x(x[i]&y), .y(pp[i+1]), .sum(pp[i]));
     end endgenerate
