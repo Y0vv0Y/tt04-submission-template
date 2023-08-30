@@ -34,12 +34,12 @@ endmodule
 
 //*****************testbench of mul_addtree******************
 module mul_addtree_tb;
-    wire [7:0] mul_out;               //输出是wire
+    wire [7:0] uo_out;               //输出是wire
     reg [3:0] mul_a;                  //输入是reg 
     reg [3:0] mul_b;
     
     //模块例化
-    mul_addtree U(.mul_a(mul_a),.mul_b(mul_b),.mul_out(mul_out));
+    mul_addtree U(.mul_a(mul_a),.mul_b(mul_b),.uo_out(uo_out));
     
     //测试信号
     initial
