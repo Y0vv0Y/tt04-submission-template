@@ -12,35 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-module tt_um_chip_rom(clk, rst, ena, x, y, p);
+
+module tt_um_chip_rom(clk, rst_n, ena, x, y, p,ui_in, uio_in, uio_oe, uio_out, uo_out);
     parameter size = 32;
-    input clk, rst, ena;
+    input clk, rst_n, ena;
     input y;
     input[size-1:0] x;
     output p;
+    input [7:0] ui_in, uio_in;
+    output [7:0] uio_oe, uio_out, uo_out;
 
     wire[size-1:1] pp;
     wire[size-1:0] xy;
 
     genvar i;
 
-    CSADD csa0 (.clk(clk), .rst(rst), .x(x[0]&y), .y(pp[1]), .sum(p));
+    CSADD csa0 (.clk(clk), .rst_n(rst_n), .x(x[0]&y), .y(pp[1]), .sum(p));
     generate for(i=1; i<size-1; i=i+1) begin
-        CSADD csa (.clk(clk), .rst(rst), .x(x[i]&y), .y(pp[i+1]), .sum(pp[i]));
+        CSADD csa (.clk(clk), .rst_n(rst_n), .x(x[i]&y), .y(pp[i+1]), .sum(pp[i]));
     end endgenerate
-    TCMP tcmp (.clk(clk), .rst(rst), .a(x[size-1]&y), .s(pp[size-1]));
+    TCMP tcmp (.clk(clk), .rst_n(rst_n), .a(x[size-1]&y), .s(pp[size-1]));
 
 endmodule
 
-module TCMP(clk, rst, a, s);
-    input clk, rst;
+module TCMP(clk, rst_n, a, s);
+    input clk, rst_n;
     input a;
     output reg s;
 
     reg z;
 
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+    always @(posedge clk or posedge rst_n) begin
+        if (rst_n) begin
             //Reset logic goes here.
             s <= 1'b0;
             z <= 1'b0;
@@ -53,8 +56,8 @@ module TCMP(clk, rst, a, s);
     end
 endmodule
 
-module CSADD(clk, rst, x, y, sum);
-    input clk, rst;
+module CSADD(clk, rst_n, x, y, sum);
+    input clk, rst_n;
     input x, y;
     output reg sum;
 
@@ -69,8 +72,8 @@ module CSADD(clk, rst, x, y, sum);
     assign hsum2 = x ^ hsum1;
     assign hco2 = x & hsum1;
 
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
+    always @(posedge clk or posedge rst_n) begin
+        if (rst_n) begin
             //Reset logic goes here.
             sum <= 1'b0;
             sc <= 1'b0;
