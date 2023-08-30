@@ -23,6 +23,9 @@ module tt_um_mul_addtree(mul_a,mul_b, ui_in, uio_in, uio_oe, uio_out, uo_out, cl
     wire [7:0] uo_out;               //连线类型声明
     wire [7:0] store0,store1,store2,store3;
     wire [7:0] add01,add23;
+
+    assign uio_oe = mul_b[0]?{4'b0000,mul_a}:8'b0000_0000;
+    assign uio_out = mul_b[0]?{4'b0000,mul_a}:8'b0000_0000;
     
     assign store0 = mul_b[0]?{4'b0000,mul_a}:8'b0000_0000;
     assign store1 = mul_b[1]?{3'b000,mul_a,1'b0}:8'b0000_0000;
