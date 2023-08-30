@@ -12,22 +12,61 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+`timescale 1ns/10ps
+module tt_um_mul_addtree(mul_a,mul_b, ui_in, uio_in, uio_oe, uio_out, uo_out);
+    input [7:0] ui_in, uio_in;
+    output [7:0] uio_oe, uio_out, uo_out;
+    input [3:0] mul_a,mul_b;          //IO端口声明
+    output [7:0] uo_out;
+    
+    wire [7:0] uo_out;               //连线类型声明
+    wire [7:0] store0,store1,store2,store3;
+    wire [7:0] add01,add23;
+    
+    assign store0 = mul_b[0]?{4'b0000,mul_a}:8'b0000_0000;
+    assign store1 = mul_b[1]?{3'b000,mul_a,1'b0}:8'b0000_0000;
+    assign store2 = mul_b[2]?{2'b00,mul_a,2'b00}:8'b0000_0000;
+    assign store3 = mul_b[3]?{1'b0,mul_a,3'b000}:8'b0000_0000;
+    assign add01 = store0+store1;
+    assign add23 = store2+store3;
+    assign uo_out = add01+add23;
+endmodule
 
-module tt_um_chip_rom(clk, rst_n, ena, x, y, ui_in, uio_in, uio_oe, uio_out, uo_out);
+//*****************testbench of mul_addtree******************
+module mul_addtree_tb;
+    wire [7:0] mul_out;               //输出是wire
+    reg [3:0] mul_a;                  //输入是reg 
+    reg [3:0] mul_b;
+    
+    //模块例化
+    mul_addtree U(.mul_a(mul_a),.mul_b(mul_b),.mul_out(mul_out));
+    
+    //测试信号
+    initial
+        begin
+            mul_a=4'b0;mul_b=4'b0;
+            repeat(9)
+                begin
+                    #20 mul_a = mul_a+1'b1;mul_b = mul_b+1'b1;
+                end
+        end
+endmodule
+
+/*module tt_um_chip_rom(clk, rst_n, ena, x, y, p, ui_in, uio_in, uio_oe, uio_out, uo_out);
     parameter size = 32;
     input clk, rst_n, ena;
     input y;
     input[size-1:0] x;
-    output uo_out;
+    output p;
     input [7:0] ui_in, uio_in;
-    output [7:0] uio_oe, uio_out;
+    output [7:0] uio_oe, uio_out, uo_out;
 
     wire[size-1:1] pp;
     wire[size-1:0] xy;
 
     genvar i;
 
-    CSADD csa0 (.clk(clk), .rst_n(rst_n), .x(x[0]&y), .y(pp[1]), .sum(uo_out));
+	CSADD csa0 (.clk(clk), .rst_n(rst_n), .x(x[0]&y), .y(pp[1]), .sum(p));
     generate for(i=1; i<size-1; i=i+1) begin
         CSADD csa (.clk(clk), .rst_n(rst_n), .x(x[i]&y), .y(pp[i+1]), .sum(pp[i]));
     end endgenerate
@@ -84,7 +123,7 @@ module CSADD(clk, rst_n, x, y, sum);
             sc <= hco1 ^ hco2;
         end
     end
-endmodule
+endmodule*/
 
 
 /*
