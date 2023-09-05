@@ -1,4 +1,4 @@
-module mux_two(out, a, b, sl);
+module tt_um_mux_two(out, a, b, sl);
     input a, b, sl;
     output out;
     wire nsl, sela, selb;
