@@ -8,13 +8,13 @@ module tt_um_mux_two(out, ui_in, uio_in, uio_oe, uio_out, uo_out, clk, ena, rst_
     
     assign uio_oe = 8'b0000_0000;
     assign uio_out = 8'b0000_0000;
-    assign uo_out = 8'b0000_0000;
+    // assign uo_out = 8'b0000_0000;
     
     wire nsl, sela, selb;
-        assign nsl = ~rst_n;
-        assign sela = clk & nsl;
-        assign selb = ena & rst_n;
-        assign out = sela | selb;	
+    assign nsl = ~ui_in[1];
+    assign sela = ui_in[0] & nsl;
+    assign selb = ui_in[2] & ui_in[1];
+    assign uo_out[0] = sela | selb;	
 endmodule
 
 
